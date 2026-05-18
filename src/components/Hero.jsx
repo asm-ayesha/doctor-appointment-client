@@ -14,7 +14,7 @@ import "swiper/css/pagination";
 const slideData = [
   {
     id: 1,
-    image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=2070&auto=format&fit=crop", // Modern doctor consultation
+    image: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=2070&auto=format&fit=crop", 
     badge: "Easy Scheduling",
     title: "Book Doctor Appointments Online Seamlessly",
     description: "Skip the waiting room lines. Connect with verified medical practitioners and certified specialists in your neighborhood within just a few clicks.",
@@ -23,7 +23,7 @@ const slideData = [
   },
   {
     id: 2,
-    image: "https://images.unsplash.com/photo-1504813184591-01552661c93c?q=80&w=2070&auto=format&fit=crop", // Professional healthcare setup
+    image: "https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?q=80&w=2070&auto=format&fit=crop", 
     badge: "Smart Tracking",
     title: "Manage Your Health Dashboard Efficiently",
     description: "Take total control of your wellness. Access digital prescriptions, securely track treatment history, and handle follow-ups all from one clean console.",
@@ -32,7 +32,7 @@ const slideData = [
   },
   {
     id: 3,
-    image: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=2070&auto=format&fit=crop", // Reliable diverse specialists
+    image: "https://images.unsplash.com/photo-1629909613654-28e377c37b09?q=80&w=2070&auto=format&fit=crop", 
     badge: "Expert Assistance",
     title: "Consult Top Medical Specialists Anytime",
     description: "Prioritize your mental and physical wellness. Tap into professional care through instant on-demand configurations tailored perfectly around your timeline.",
@@ -40,7 +40,6 @@ const slideData = [
     ctaLink: "/register",
   },
 ];
-
 export default function Hero() {
   return (
     <section className="relative w-full h-[65vh] sm:h-[75vh] lg:h-[85vh] bg-slate-900 overflow-hidden">
