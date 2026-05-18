@@ -1,0 +1,23 @@
+import DoctorsCard from '@/components/DoctorsCard';
+import { getAllDoctors } from '@/lib/doctor/data';
+import React from 'react';
+
+const AllAppointmentPage =async () => {
+    const doctorsData = await getAllDoctors();
+    console.log(doctorsData)
+    return (
+        <div className='my-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight" >All Appointment</h2>
+
+            <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 justify-items-center mt-10' >
+                {
+                    doctorsData.map(doctor => <DoctorsCard key={doctor._id} doctor={doctor} >
+                        <p>{doctor.name}</p>
+                    </DoctorsCard>)
+                }
+            </div>
+        </div>
+    );
+};
+
+export default AllAppointmentPage;

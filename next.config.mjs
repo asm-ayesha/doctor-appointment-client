@@ -1,9 +1,26 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  /* config options here */
   reactCompiler: true,
+
   images: {
-    domains: ["images.unsplash.com"],   
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+      },
+      {
+        protocol: "https",
+        hostname: "t3.ftcdn.net",
+      },
+      {
+        protocol: "https",
+        hostname: "static.vecteezy.com",
+      },
+      {
+        protocol: "https",
+        hostname: "thumbs.dreamstime.com",
+      },
+    ],
   },
 };
 
