@@ -24,15 +24,19 @@ const RegisterPage = () => {
         console.log(registerData)
 
         const { data, error } = await signUp.email({
-            ...registerData
+            email: registerData.email,
+            password: registerData.password,
+            name: registerData.name,
+            image: registerData.photoUrl,
 
         });
 
         if (error) {
-            console.log(error)
+
             toast.error('Registration failed');
             return;
         }
+        toast.success('Registration successful!');
         router.push('/')
 
 
@@ -124,8 +128,6 @@ const RegisterPage = () => {
                                 type="url"
                                 name="photoUrl"
                                 placeholder="https://..."
-                                // value={formData.photoUrl}
-                                // onChange={handleChange}
                                 className="w-full pl-10 pr-4 py-3 bg-white dark:bg-slate-950 border border-gray-200 dark:border-slate-800 rounded-xl text-sm text-gray-900 dark:text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-[#2563EB] focus:border-transparent transition-all"
                             />
                         </div>
@@ -145,8 +147,6 @@ const RegisterPage = () => {
                                 name="password"
                                 required
                                 placeholder="••••••••"
-                                // value={formData.password}
-                                // onChange={handleChange}
                                 className="w-full pl-10 pr-10 py-3 bg-white dark:bg-slate-950 border border-gray-200 dark:border-slate-800 rounded-xl text-sm text-gray-900 dark:text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-[#2563EB] focus:border-transparent transition-all"
                             />
                             {/* পাসওয়ার্ড শো/হাইড বাটন */}

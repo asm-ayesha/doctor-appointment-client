@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React from 'react';
+import toast from 'react-hot-toast';
 
 const LoginPage = () => {
     const router = useRouter();
@@ -19,7 +20,8 @@ const LoginPage = () => {
         // console.log(registerData)
 
         const { data, error } = await signIn.email({
-            ...loginData
+            email: loginData.email,
+            password: loginData.password,
 
         });
 
