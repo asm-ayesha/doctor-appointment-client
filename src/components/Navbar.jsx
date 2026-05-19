@@ -60,8 +60,8 @@ const Navbar = () => {
           <ul className="hidden md:flex items-center gap-8">
             <li><Link className={linkClass("/")} href="/">Home</Link></li>
             <li><Link className={linkClass("/all-appointment")} href="/all-appointment">All Appointment</Link></li>
-            {/* 💡 শুধুমাত্র লগইন করা থাকলেই ড্যাশবোর্ড মেনু দেখাবে */}
-            {user && <li><Link className={linkClass("/dashboard")} href="/dashboard">Dashboard</Link></li>}
+           
+             <li><Link className={linkClass("/dashboard")} href="/dashboard">Dashboard</Link></li>
           </ul>
 
           {/* Desktop Auth */}
@@ -122,7 +122,7 @@ const Navbar = () => {
           <div className="space-y-1 py-2">
             <Link onClick={() => setOpen(false)} href="/" className={linkClass("/", true)}>Home</Link>
             <Link onClick={() => setOpen(false)} href="/all-appointment" className={linkClass("/all-appointment", true)}>All Appointment</Link>
-            {user && <Link onClick={() => setOpen(false)} href="/dashboard" className={linkClass("/dashboard", true)}>Dashboard</Link>}
+             <Link onClick={() => setOpen(false)} href="/dashboard" className={linkClass("/dashboard", true)}>Dashboard</Link>
           </div>
 
           <hr className="border-gray-200 my-2" />

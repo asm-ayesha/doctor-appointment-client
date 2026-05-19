@@ -13,15 +13,32 @@ import { useRouter } from "next/navigation";
 const RegisterPage = () => {
 
     const router = useRouter();
+     const [showPassword, setShowPassword] = useState(false)
+
+     const validatePassword = (password) => {
+        if (password.length < 6) {
+            return "Password must be at least 6 characters long.";
+        }
+        if (!/[A-Z]/.test(password)) {
+            return "Password must contain at least one uppercase letter.";
+        }
+        if (!/[a-z]/.test(password)) {
+            return "Password must contain at least one lowercase letter.";
+        }
+        return null; 
+    };
 
     const handleRegsiter = async (e) => {
         e.preventDefault();
 
         const formData = new FormData(e.currentTarget)
-
-
         const registerData = Object.fromEntries(formData.entries());
-        console.log(registerData)
+        
+        const passwordError = validatePassword(registerData.password);
+        if (passwordError) {
+        toast.error(passwordError);
+        return; 
+    }
 
         const { data, error } = await signUp.email({
             email: registerData.email,
@@ -32,7 +49,7 @@ const RegisterPage = () => {
         });
 
         if (error) {
-
+            console.log(error)
             toast.error('Registration failed');
             return;
         }
@@ -143,7 +160,7 @@ const RegisterPage = () => {
                                 <Lock className="h-4 w-4" />
                             </span>
                             <input
-                                // type={showPassword ? "text" : "password"}
+                                type={showPassword ? "text" : "password"}
                                 name="password"
                                 required
                                 placeholder="••••••••"
@@ -152,10 +169,10 @@ const RegisterPage = () => {
                             {/* পাসওয়ার্ড শো/হাইড বাটন */}
                             <button
                                 type="button"
-                                // onClick={() => setShowPassword(!showPassword)}
+                                onClick={() => setShowPassword(!showPassword)}
                                 className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600 dark:hover:text-slate-300"
                             >
-                                {/* {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />} */}
+                                {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                             </button>
                         </div>
                     </div>

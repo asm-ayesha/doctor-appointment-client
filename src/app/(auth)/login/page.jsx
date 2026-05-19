@@ -1,5 +1,5 @@
 "use client"
-import { signIn, signUp } from '@/lib/auth-client';
+import {  signIn} from '@/lib/auth-client';
 import { ArrowRight, Eye, EyeOff, Link2, Lock, Mail, User } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -22,14 +22,17 @@ const LoginPage = () => {
         const { data, error } = await signIn.email({
             email: loginData.email,
             password: loginData.password,
-
+            callbackURL: '/'
         });
+
+        
 
         if (error) {
             console.log(error)
-            toast.error('Registration failed');
+            toast.error('Login failed');
             return;
         }
+        toast.success("Login Success")
         router.push('/')
     }
 
