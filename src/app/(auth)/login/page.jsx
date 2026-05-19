@@ -1,37 +1,43 @@
-"use client";
+"use client"
+import { signIn, signUp } from '@/lib/auth-client';
+import { ArrowRight, Eye, EyeOff, Link2, Lock, Mail, User } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import React from 'react';
 
-import { useState } from "react";
-import Link from "next/link";
-import { User, Mail, Link2, Lock, Eye, EyeOff, ArrowRight } from "lucide-react";
-import Image from "next/image";
+const LoginPage = () => {
+    const router = useRouter();
 
-
-const RegisterPage = () => {
-    const [showPassword, setShowPassword] = useState(false);
-    const [formData, setFormData] = useState({
-        name: "",
-        email: "",
-        photoUrl: "",
-        password: "",
-    });
-
-    const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-    };
-    const handleSubmit = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
-        console.log("Registration Data:", formData);
-        // এখানে আপনার ব্যাকএন্ড সাইন-আপ বা ফায়ারবেস অথেনটিকেশন লজিক বসাবেন
-    };
 
+        const formData = new FormData(e.currentTarget)
+
+
+        const loginData = Object.fromEntries(formData.entries());
+        // console.log(registerData)
+
+        const { data, error } = await signIn.email({
+            ...loginData
+
+        });
+
+        if (error) {
+            console.log(error)
+            toast.error('Registration failed');
+            return;
+        }
+        router.push('/')
+    }
 
     return (
         <main className="min-h-[85vh] bg-gray-50  flex items-center justify-center px-4 py-12 transition-colors duration-300">
 
-            {/* 📦 কার্ড কন্টেইনার */}
+            
             <div className="max-w-md w-full bg-white border border-gray-100  rounded-3xl p-8 shadow-xl shadow-slate-200/50 dark:shadow-none">
 
-                {/* লোগো এবং হেডার */}
+              
                 <div className="text-center flex flex-col items-center mb-8">
                     <div className="p-3 mb-4">
                         <Image
@@ -43,35 +49,20 @@ const RegisterPage = () => {
                         />
                     </div>
                     <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white tracking-tight">
-                        Register
+                        Login
                     </h1>
                     <p className="text-xs text-gray-400 dark:text-slate-400 mt-1">
-                        Create your DocAppoint account
+                        Welcome back to DocAppoint
                     </p>
                 </div>
 
                 {/* 📝 ফর্ম সেকশন */}
-                <form onSubmit={handleSubmit} className="space-y-4">
+                <form onSubmit={handleLogin} className="space-y-4">
 
                     {/* নাম ইনপুট */}
                     <div className="space-y-1.5">
-                        <label className="text-xs font-bold text-gray-700 dark:text-slate-300 tracking-wide">
-                            Name
-                        </label>
-                        <div className="relative">
-                            <span className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-gray-400">
-                                <User className="h-4 w-4" />
-                            </span>
-                            <input
-                                type="text"
-                                name="name"
-                                required
-                                placeholder="John Doe"
-                                value={formData.name}
-                                onChange={handleChange}
-                                className="w-full pl-10 pr-4 py-3 bg-white dark:bg-slate-950 border border-gray-200 dark:border-slate-800 rounded-xl text-sm text-gray-900 dark:text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-[#2563EB] focus:border-transparent transition-all"
-                            />
-                        </div>
+                       
+                        
                     </div>
 
                     {/* ইমেইল ইনপুট */}
@@ -88,28 +79,8 @@ const RegisterPage = () => {
                                 name="email"
                                 required
                                 placeholder="example@gmail.com"
-                                value={formData.email}
-                                onChange={handleChange}
-                                className="w-full pl-10 pr-4 py-3 bg-white dark:bg-slate-950 border border-gray-200 dark:border-slate-800 rounded-xl text-sm text-gray-900 dark:text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-[#2563EB] focus:border-transparent transition-all"
-                            />
-                        </div>
-                    </div>
-
-                    {/* ফটো ইউআরএল ইনপুট */}
-                    <div className="space-y-1.5">
-                        <label className="text-xs font-bold text-gray-700 dark:text-slate-300 tracking-wide">
-                            Photo URL (optional)
-                        </label>
-                        <div className="relative">
-                            <span className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-gray-400">
-                                <Link2 className="h-4 w-4" />
-                            </span>
-                            <input
-                                type="url"
-                                name="photoUrl"
-                                placeholder="https://..."
-                                value={formData.photoUrl}
-                                onChange={handleChange}
+                                // value={formData.email}
+                                // onChange={handleChange}
                                 className="w-full pl-10 pr-4 py-3 bg-white dark:bg-slate-950 border border-gray-200 dark:border-slate-800 rounded-xl text-sm text-gray-900 dark:text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-[#2563EB] focus:border-transparent transition-all"
                             />
                         </div>
@@ -125,12 +96,12 @@ const RegisterPage = () => {
                                 <Lock className="h-4 w-4" />
                             </span>
                             <input
-                                type={showPassword ? "text" : "password"}
+                                // type={showPassword ? "text" : "password"}
                                 name="password"
                                 required
                                 placeholder="••••••••"
-                                value={formData.password}
-                                onChange={handleChange}
+                                // value={formData.password}
+                                // onChange={handleChange}
                                 className="w-full pl-10 pr-10 py-3 bg-white dark:bg-slate-950 border border-gray-200 dark:border-slate-800 rounded-xl text-sm text-gray-900 dark:text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-[#2563EB] focus:border-transparent transition-all"
                             />
                             {/* পাসওয়ার্ড শো/হাইড বাটন */}
@@ -139,9 +110,20 @@ const RegisterPage = () => {
                                 onClick={() => setShowPassword(!showPassword)}
                                 className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600 dark:hover:text-slate-300"
                             >
-                                {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                                {/* {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />} */}
                             </button>
                         </div>
+
+
+                        <div className='flex justify-end'>
+                             <Link
+                        href="#"
+                        className="text-sm font-bold text-blue-400 hover:underline underline-offset-4 transition-all"
+                    >
+                        Forgot Password?
+                    </Link>
+                        </div>
+
                     </div>
 
                     {/* সাবমিট রেজিস্টার বাটন */}
@@ -149,7 +131,7 @@ const RegisterPage = () => {
                         type="submit"
                         className="w-full inline-flex items-center justify-center gap-2 mt-2 px-4 py-3 bg-[#2563EB] hover:bg-[#1d4ed8] text-white font-bold text-sm rounded-xl shadow-md shadow-blue-500/10 transition-all duration-200 active:scale-[0.98] cursor-pointer"
                     >
-                        Register
+                        Login
                         <ArrowRight className="h-4 w-4" />
                     </button>
                 </form>
@@ -179,12 +161,12 @@ const RegisterPage = () => {
 
                 {/* 🔗 অলরেডি অ্যাকাউন্ট থাকলে লগইন লিংক */}
                 <p className="text-center text-xs text-gray-500 dark:text-slate-400 mt-6 font-medium">
-                    Already have an account?{" "}
+                    Don`t have an account?{" "}
                     <Link
-                        href="/login"
+                        href="/register"
                         className="text-[#2563EB] dark:text-blue-400 font-bold hover:underline"
                     >
-                        Login
+                        Register
                     </Link>
                 </p>
 
@@ -193,4 +175,4 @@ const RegisterPage = () => {
     );
 };
 
-export default RegisterPage;
+export default LoginPage;

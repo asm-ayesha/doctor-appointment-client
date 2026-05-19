@@ -21,7 +21,7 @@ const DoctorsCard = ({ doctor }) => {
     } = doctor;
 
     const handleViewDetails = () => {
-        console.log(`Navigating to doctor: ${id}`);
+        console.log(`Navigating to doctor`);
     };
 
     return (

@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Star, ArrowRight, Award, CheckCircle2, Loader2 } from "lucide-react";
-import { getAllDoctors } from "@/lib/doctor/data"; // আপনার তৈরি করা ডাটা ফেচিং ফাংশন
+import { getAllDoctors } from "@/lib/doctor/data"; 
 import Link from "next/link";
 
 const TopRatedDoctors = () => {
