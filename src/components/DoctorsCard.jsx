@@ -1,11 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import { MapPin, Briefcase, DollarSign, ArrowRight, Star } from "lucide-react";
+import { MapPin, Briefcase, DollarSign, ArrowRight, Star} from "lucide-react";
+import { Button } from "@heroui/react";
+import Link from "next/link";
 
 const DoctorsCard = ({ doctor }) => {
     const {
-        id,
+        _id,
         name,
         specialty,
         image,
@@ -117,13 +119,18 @@ const DoctorsCard = ({ doctor }) => {
             </div>
 
             {/* ৫. বটম সেকশন: ফুল-উইথ ভিউ ডিটেইলস বাটন */}
-            <button
+           
+           <Link  href={`/all-appointment/${_id}`}>
+           <Button
                 onClick={handleViewDetails}
                 className="w-full inline-flex items-center justify-center gap-2 px-4 py-3.5 bg-[#2563EB] hover:bg-white text-white hover:text-[#2563EB] border border-[#2563EB] font-bold text-sm rounded-xl shadow-md shadow-blue-500/10 transition-all duration-300 active:scale-[0.98] cursor-pointer pointer-events-auto "
             >
                 View Details
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-            </button>
+            </Button>
+           </Link>
+            
+            
 
         </div>
     );
