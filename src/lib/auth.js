@@ -24,5 +24,11 @@ export const auth = betterAuth({
   },
   plugins: [
         jwt(), 
-    ]
+    ],
+    socialProviders: {
+        google: { 
+            clientId: process.env.GOOGLE_CLIENTID, 
+            clientSecret: process.env.GOOGLE_SECTRET, 
+        }, 
+    },
 });

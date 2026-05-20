@@ -5,7 +5,7 @@ import Link from "next/link";
 import { User, Mail, Link2, Lock, Eye, EyeOff, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import toast from "react-hot-toast";
-import { signUp } from "@/lib/auth-client";
+import { authClient, signUp } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 
 
@@ -59,14 +59,21 @@ const RegisterPage = () => {
 
     }
 
+    const handleGoogleSignin = async() =>{
+        await authClient.signIn.social({ 
+            provider: 'google'
+        })
+    }
+
+
+
 
     return (
         <main className="min-h-[85vh] bg-gray-50  flex items-center justify-center px-4 py-12 transition-colors duration-300">
 
-            {/* 📦 কার্ড কন্টেইনার */}
+            
             <div className="max-w-md w-full bg-white border border-gray-100  rounded-3xl p-8 shadow-xl shadow-slate-200/50 dark:shadow-none">
 
-                {/* লোগো এবং হেডার */}
                 <div className="text-center flex flex-col items-center mb-8">
                     <div className="p-3 mb-4">
                         <Image
@@ -187,7 +194,7 @@ const RegisterPage = () => {
                     </button>
                 </form>
 
-                {/* ➖ OR ডিভাইডার ➖ */}
+                
                 <div className="relative my-6 flex items-center justify-center">
                     <div className="border-t border-gray-100 dark:border-slate-800 w-full"></div>
                     <span className="absolute bg-white dark:bg-slate-900 px-3 text-[10px] font-bold text-gray-400 uppercase tracking-wider">
@@ -195,12 +202,13 @@ const RegisterPage = () => {
                     </span>
                 </div>
 
-                {/* 🌐 গুগল সাইন-ইন বাটন */}
+                
                 <button
+                    onClick={handleGoogleSignin}
                     type="button"
                     className="w-full inline-flex items-center justify-center gap-2.5 px-4 py-3 bg-white dark:bg-slate-950 hover:bg-gray-50 dark:hover:bg-slate-800 text-gray-700 dark:text-slate-200 font-semibold text-sm rounded-xl border border-gray-200 dark:border-slate-800 shadow-sm transition-all duration-200 active:scale-[0.98] cursor-pointer"
                 >
-                    {/* গুগলের অফিশিয়াল রঙিন SVG লোগো */}
+                    
                     <svg className="h-4 w-4 shrink-0" viewBox="0 0 24 24">
                         <path
                             fill="#EA4335"

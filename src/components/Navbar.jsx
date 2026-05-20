@@ -3,9 +3,10 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Menu, X, User } from "lucide-react"; // User আইকন যোগ করা হয়েছে
+import { Menu, X, User } from "lucide-react"; 
 import { usePathname, useRouter } from "next/navigation";
-import { signOut, useSession } from "@/lib/auth-client"; 
+import { signOut, useSession } from "@/lib/auth-client";
+import { Avatar } from "@heroui/react";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
@@ -17,8 +18,8 @@ const Navbar = () => {
   const user = session?.user;
 
   const linkClass = (path, isMobile = false) => {
-    const baseClass = isMobile 
-      ? "block py-2 text-base font-medium transition-colors" 
+    const baseClass = isMobile
+      ? "block py-2 text-base font-medium transition-colors"
       : "transition-colors font-medium";
     const activeClass = pathname === path
       ? "text-[#2563EB] font-bold"
@@ -29,7 +30,7 @@ const Navbar = () => {
   const authClass = (path, isMobile = false) => {
     const isActive = pathname === path;
     const baseClass = "inline-block text-center rounded-lg font-medium transition-all duration-200";
-    
+
     if (isMobile) {
       return isActive
         ? `${baseClass} w-full bg-[#2563EB] text-white px-4 py-2.5 shadow-sm`
@@ -42,7 +43,7 @@ const Navbar = () => {
   };
 
   const handleSignOut = async () => {
-    await signOut(); 
+    await signOut();
     router.push('/');
   };
 
@@ -60,26 +61,26 @@ const Navbar = () => {
           <ul className="hidden md:flex items-center gap-8">
             <li><Link className={linkClass("/")} href="/">Home</Link></li>
             <li><Link className={linkClass("/all-appointment")} href="/all-appointment">All Appointment</Link></li>
-           
-             <li><Link className={linkClass("/dashboard")} href="/dashboard">Dashboard</Link></li>
+
+            <li><Link className={linkClass("/dashboard")} href="/dashboard">Dashboard</Link></li>
           </ul>
 
           {/* Desktop Auth */}
           <div className="hidden md:flex items-center gap-4">
             {isPending ? (
-              <div className="h-8 w-20 bg-gray-100 animate-pulse rounded-lg"></div> 
+              <div className="h-8 w-20 bg-gray-100 animate-pulse rounded-lg"></div>
             ) : user ? (
-              
+
               <div className="flex items-center gap-4">
                 <div className="flex items-center gap-2 px-3 py-1.5 rounded-full ">
                   {user?.image ? (
-                    <Image 
-                      src={user?.image} 
-                      alt={user?.name} 
-                      width={28} 
-                      height={28} 
-                      className="rounded-full object-cover"
-                    />
+
+                    <Avatar>
+                      <Avatar.Image referrerPolicy="no-referrer"  alt={user?.name} src={user?.image} />
+                      <Avatar.Fallback>{user?.name.charAt(0)}</Avatar.Fallback>
+                    </Avatar>
+
+                    
                   ) : (
                     <div className="p-1 bg-gray-200 rounded-full text-gray-600">
                       <User className="h-4 w-4" />
@@ -97,7 +98,7 @@ const Navbar = () => {
                 </button>
               </div>
             ) : (
-              // 💡 লগআউট থাকলে লগইন ও রেজিস্টার বাটন দেখাবে
+
               <>
                 <Link className={authClass("/login")} href="/login">Login</Link>
                 <Link className={authClass("/register")} href="/register">Register</Link>
@@ -122,7 +123,7 @@ const Navbar = () => {
           <div className="space-y-1 py-2">
             <Link onClick={() => setOpen(false)} href="/" className={linkClass("/", true)}>Home</Link>
             <Link onClick={() => setOpen(false)} href="/all-appointment" className={linkClass("/all-appointment", true)}>All Appointment</Link>
-             <Link onClick={() => setOpen(false)} href="/dashboard" className={linkClass("/dashboard", true)}>Dashboard</Link>
+            <Link onClick={() => setOpen(false)} href="/dashboard" className={linkClass("/dashboard", true)}>Dashboard</Link>
           </div>
 
           <hr className="border-gray-200 my-2" />
@@ -131,11 +132,14 @@ const Navbar = () => {
             {isPending ? (
               <div className="h-10 bg-gray-100 animate-pulse rounded-lg"></div>
             ) : user ? (
-              // 💡 মোবাইলের জন্য ইউজার প্রোফাইল এবং লগআউট বাটন
+
               <div className="space-y-3">
                 <div className="flex items-center gap-3 px-2 py-1">
                   {user?.image ? (
-                    <Image src={user?.image} alt={user?.name} width={36} height={36} className="rounded-full object-cover" />
+                    <Avatar>
+                      <Avatar.Image referrerPolicy="no-referrer"   alt={user?.name} src={user?.image} />
+                      <Avatar.Fallback>{user?.name.charAt(0)}</Avatar.Fallback>
+                    </Avatar>
                   ) : (
                     <div className="p-2 bg-gray-100 rounded-full text-gray-600">
                       <User className="h-5 w-5" />

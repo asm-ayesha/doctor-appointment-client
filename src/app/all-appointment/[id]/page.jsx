@@ -2,10 +2,22 @@
 import { getDoctorById } from "@/lib/doctor/data";
 import Image from "next/image";
 import { Star, Briefcase, Building2, MapPin, CalendarDays, Wallet, CheckCircle2 } from "lucide-react";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
+import Link from "next/link";
+import AppointmentBtn from "@/components/AppointmentBtn";
+
 
 const DoctorDetails = async ({ params }) => {
+   
     const { id } = await params;
-    const data = await getDoctorById(id)
+       const {token} = await auth.api.getToken({
+        headers: await headers()
+    });
+
+    
+    
+    const data = await getDoctorById( id, token)
     const { name,
         specialty,
         image,
@@ -17,9 +29,8 @@ const DoctorDetails = async ({ params }) => {
         total_reviews,
         description } = data;
 
-    const handleBookAppointment = () => {
-        console.log("Booking appointment...");
-    };
+
+   
     const {
         availability = []
     } = data;
@@ -139,12 +150,7 @@ const DoctorDetails = async ({ params }) => {
                                 </div>
 
 
-                                <button
-                                    // onClick={handleBookAppointment}
-                                    className="px-6 py-3 bg-[#2563EB] hover:bg-[#1d4ed8] text-white font-bold text-sm rounded-xl shadow-md shadow-blue-500/10 transition-all duration-200 active:scale-[0.98] cursor-pointer shrink-0 w-full sm:w-auto text-center"
-                                >
-                                    Book Appointment
-                                </button>
+                                <AppointmentBtn data={data} ></AppointmentBtn>
                             </div>
                         </div>
 

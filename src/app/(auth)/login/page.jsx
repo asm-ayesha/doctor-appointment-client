@@ -1,5 +1,5 @@
 "use client"
-import {  signIn} from '@/lib/auth-client';
+import {  authClient, signIn} from '@/lib/auth-client';
 import { ArrowRight, Eye, EyeOff, Link2, Lock, Mail, User } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -35,6 +35,12 @@ const LoginPage = () => {
         toast.success("Login Success")
         router.push('/')
     }
+
+     const handleGoogleSignin = async() =>{
+            await authClient.signIn.social({ 
+                provider: 'google'
+            })
+        }
 
     return (
         <main className="min-h-[85vh] bg-gray-50  flex items-center justify-center px-4 py-12 transition-colors duration-300">
@@ -149,12 +155,13 @@ const LoginPage = () => {
                     </span>
                 </div>
 
-                {/* 🌐 গুগল সাইন-ইন বাটন */}
+                
                 <button
+                    onClick={handleGoogleSignin}
                     type="button"
                     className="w-full inline-flex items-center justify-center gap-2.5 px-4 py-3 bg-white dark:bg-slate-950 hover:bg-gray-50 dark:hover:bg-slate-800 text-gray-700 dark:text-slate-200 font-semibold text-sm rounded-xl border border-gray-200 dark:border-slate-800 shadow-sm transition-all duration-200 active:scale-[0.98] cursor-pointer"
                 >
-                    {/* গুগলের অফিশিয়াল রঙিন SVG লোগো */}
+                   
                     <svg className="h-4 w-4 shrink-0" viewBox="0 0 24 24">
                         <path
                             fill="#EA4335"
@@ -164,7 +171,7 @@ const LoginPage = () => {
                     Continue with Google
                 </button>
 
-                {/* 🔗 অলরেডি অ্যাকাউন্ট থাকলে লগইন লিংক */}
+               
                 <p className="text-center text-xs text-gray-500 dark:text-slate-400 mt-6 font-medium">
                     Don`t have an account?{" "}
                     <Link
