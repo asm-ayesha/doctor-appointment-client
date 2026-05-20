@@ -1,11 +1,18 @@
 import DoctorsCard from '@/components/DoctorsCard';
 import SearchBar from '@/components/SearchBar';
 import { getAllDoctors } from '@/lib/doctor/data';
-import React from 'react';
 
-const AllAppointmentPage =async () => {
-    const doctorsData = await getAllDoctors();
-    console.log(doctorsData)
+
+export const metadata = {
+    title: "All Appointment | DocAppoint",
+    
+};
+
+const AllAppointmentPage =async (searchParams) => {
+    const sParams = await searchParams;
+    console.log(sParams)
+    const doctorsData = await getAllDoctors(sParams?.searchTerm || "");
+    
     return (
         <div className='my-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
             <div className="flex flex-col items-center gap-4 md:flex-row md:justify-between md:items-center">

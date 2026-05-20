@@ -7,6 +7,12 @@ import { headers } from "next/headers";
 import Link from "next/link";
 import AppointmentBtn from "@/components/AppointmentBtn";
 
+export const metadata = {
+    title: "Doctor details | DocAppoint",
+    
+};
+
+
 
 const DoctorDetails = async ({ params }) => {
    

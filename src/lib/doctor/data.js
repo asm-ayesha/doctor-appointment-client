@@ -1,5 +1,5 @@
-export const getAllDoctors = async () => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/doctors`);
+export const getAllDoctors = async (searchTerm = '') => {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/doctors?search=${searchTerm}`);
     const data = await res.json();
     return data;
 }

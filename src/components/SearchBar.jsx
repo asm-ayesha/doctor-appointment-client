@@ -1,10 +1,13 @@
 "use client";
 
 import { Button, SearchField } from "@heroui/react";
+
+
 import React, { useState } from "react";
 
 const SearchbBar = ({ courses, setFilteredCourses }) => {
     const [search, setSearch] = useState("");
+   
 
     const handleSearch = () => {
         const result = courses.filter((course) =>

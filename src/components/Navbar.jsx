@@ -12,8 +12,6 @@ const Navbar = () => {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
-
-  // 💡 useSession থেকে সরাসরি ডেটা ও পেন্ডিং স্টেট নেওয়া হলো
   const { data: session, isPending } = useSession();
   const user = session?.user;
 

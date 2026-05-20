@@ -1,9 +1,19 @@
+import { getDoctorById } from "@/lib/doctor/data";
 import { Calendar, CheckCircle2, Clock, FileText, Mail, Phone, Stethoscope, User } from "lucide-react";
 
+export const metadata = {
+    title: "Booking Appointment | DocAppoint",
+   
+};
 
 
-const AppointmentCard = () => {
+const AppointmentCard = async({params}) => {
+    const {id} = await params;
+    console.log(id)
 
+     const data = await getDoctorById( id)
+
+     console.log(data)
 
 
     return (
@@ -11,10 +21,10 @@ const AppointmentCard = () => {
 
             <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight mb-5 px-2">Booking Appointment</h2>
 
-            <div className="border border-blue-200 rounded-md p-10">
+            <div className="border border-blue-200 rounded-md shadow-lg p-10">
                 <form className="space-y-4">
 
-                {/* রো ১: ইউজার ইমেইল এবং ডাক্তারের নাম (Read Only) */}
+                
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-1.5">
                         <label className="text-xs font-bold text-slate-600 tracking-wide">User Email</label>
@@ -47,7 +57,7 @@ const AppointmentCard = () => {
                     </div>
                 </div>
 
-                {/* রো ২: পেশেন্টের নাম */}
+                
                 <div className="space-y-1.5">
                     <label className="text-xs font-bold text-slate-700 tracking-wide">
                         Patient Name <span className="text-red-500">*</span>
@@ -66,7 +76,7 @@ const AppointmentCard = () => {
                     </div>
                 </div>
 
-                {/* রো ৩: জেন্ডার এবং ফোন নাম্বার */}
+               
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-1.5">
                         <label className="text-xs font-bold text-slate-700 tracking-wide">
@@ -104,7 +114,7 @@ const AppointmentCard = () => {
                     </div>
                 </div>
 
-                {/* রো ৪: তারিখ এবং সময় */}
+                
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-1.5">
                         <label className="text-xs font-bold text-slate-700 tracking-wide">
@@ -141,7 +151,7 @@ const AppointmentCard = () => {
                     </div>
                 </div>
 
-                {/* রো ৫: রিজন/কারণ */}
+                
                 <div className="space-y-1.5">
                     <label className="text-xs font-bold text-slate-700 tracking-wide">
                         Reason <span className="text-slate-400 font-normal">(optional)</span>
@@ -159,7 +169,7 @@ const AppointmentCard = () => {
                     </div>
                 </div>
 
-                {/* সাবমিট বাটন */}
+                
                 <button
                     type="submit"
                     className="w-full inline-flex items-center justify-center gap-2 mt-4 px-4 py-3.5 bg-[#2563EB] hover:bg-[#1d4ed8] text-white font-bold text-sm rounded-xl shadow-md shadow-blue-500/10 transition-all duration-200 active:scale-[0.99] cursor-pointer"
