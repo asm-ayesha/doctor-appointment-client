@@ -1,19 +1,36 @@
 "use client";
 
 import { Button, SearchField } from "@heroui/react";
+import { useRouter, useSearchParams } from "next/navigation";
 
 
 import React, { useState } from "react";
 
-const SearchbBar = ({ courses, setFilteredCourses }) => {
+const SearchbBar = () => {
     const [search, setSearch] = useState("");
+    const router = useRouter();
+    const searchParams = useSearchParams()
    
 
     const handleSearch = () => {
-        const result = courses.filter((course) =>
-            course.title.toLowerCase().includes(search.toLowerCase())
-        );
-        setFilteredCourses(result);
+        const params = new URLSearchParams(searchParams.toString())
+
+        if(search){
+            params.set("searchTerm", search)
+        }else{
+            params.delete("searchTerm")
+        }
+
+        router.push(`/all-appointment?${params.toString()}`)
+
+
+
+
+
+        // const result = courses.filter((course) =>
+        //     course.title.toLowerCase().includes(search.toLowerCase())
+        // );
+        // setFilteredCourses(result);
     };
 
     const handleKeyDown = (e) => {

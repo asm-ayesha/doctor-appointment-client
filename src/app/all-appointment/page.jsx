@@ -8,9 +8,8 @@ export const metadata = {
     
 };
 
-const AllAppointmentPage =async (searchParams) => {
+const AllAppointmentPage =async ({searchParams}) => {
     const sParams = await searchParams;
-    console.log(sParams)
     const doctorsData = await getAllDoctors(sParams?.searchTerm || "");
     
     return (
