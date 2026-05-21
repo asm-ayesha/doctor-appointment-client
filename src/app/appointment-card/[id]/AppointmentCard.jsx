@@ -17,29 +17,29 @@ const AppointmentCard = () => {
     const [doctor, setDoctor] = useState({});
 
     useEffect(() => {
-    const fetchDoctor = async () => {
-        try {
-            const token = session?.session?.token || session?.session?.id || null; 
-            if (id) {
-                const data = await getDoctorById(id, token);
-                if (data) {
-                    setDoctor(data);
+        const fetchDoctor = async () => {
+            try {
+                const token = session?.session?.token || session?.session?.id || null;
+                if (id) {
+                    const data = await getDoctorById(id, token);
+                    if (data) {
+                        setDoctor(data);
+                    }
                 }
+            } catch (error) {
+                console.error("Doctor fetch failed:", error);
             }
-        } catch (error) {
-            console.error("Doctor fetch failed:", error);
+        };
+        if (id && session) {
+            fetchDoctor();
         }
-    };
-    if (id && session) {
-        fetchDoctor(); 
-    }
-}, [id, session]);
+    }, [id, session]);
 
 
 
 
 
-    const handleSubmit =async (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         const formData = new FormData(e.currentTarget);
@@ -47,10 +47,11 @@ const AppointmentCard = () => {
 
 
         const bookingInfo = {
-           doctorId: id,
+            ...bookingData,
+            doctorId: id,
             doctorName: doctor?.name || "",
             userEmail: user?.email || "",
-            createdAt: new Date() 
+            createdAt: new Date()
         };
 
 
@@ -66,10 +67,10 @@ const AppointmentCard = () => {
 
             const data = await res.json();
 
-            
+
             if (data && data.acknowledged) {
                 toast.success("Appointment Booked Successfully!");
-                e.target.reset(); 
+                e.target.reset();
             } else {
                 toast.error("Failed to book appointment. Please try again.");
             }
@@ -81,8 +82,8 @@ const AppointmentCard = () => {
 
     };
 
-    
-// console.log(session)
+
+    // console.log(session)
 
     return (
         <div className='my-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
@@ -102,7 +103,7 @@ const AppointmentCard = () => {
                                 </span>
                                 <input
                                     type="email"
-                                      value={user?.email || ""}
+                                    value={user?.email || ""}
                                     readOnly
                                     className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm text-slate-500 font-medium cursor-not-allowed outline-none"
                                 />
@@ -117,7 +118,7 @@ const AppointmentCard = () => {
                                 </span>
                                 <input
                                     type="text"
-                                      value={doctor?.name || ""}
+                                    value={doctor?.name || ""}
                                     readOnly
                                     className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm text-slate-500 font-medium cursor-not-allowed outline-none"
                                 />
