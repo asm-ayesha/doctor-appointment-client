@@ -1,4 +1,5 @@
 
+import { Suspense } from 'react';
 import Dashboard from './Dashboard'; 
 
 export async function generateMetadata({ searchParams }) {
@@ -13,9 +14,9 @@ export async function generateMetadata({ searchParams }) {
 
 const page = ({ searchParams }) => {
   return (
-    <div>
+    <Suspense fallback={<div>Loading...</div>}>
       <Dashboard />
-    </div>
+    </Suspense>
   );
 };
 
