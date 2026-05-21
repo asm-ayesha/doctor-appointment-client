@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Menu, X, User } from "lucide-react"; 
+import { Menu, X, User } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { signOut, useSession } from "@/lib/auth-client";
 import { Avatar } from "@heroui/react";
@@ -14,18 +14,18 @@ const Navbar = () => {
   const pathname = usePathname();
   const router = useRouter();
   const { data: session, isPending } = useSession();
-  
+
 
   const [localUser, setLocalUser] = useState({ name: "", image: "" });
 
- 
+
   useEffect(() => {
     const loadInitialData = async () => {
       if (session?.user?.email) {
-        
+
         const storedName = localStorage.getItem("user_profile_name");
         const storedImage = localStorage.getItem("user_profile_image");
-        
+
         if (storedName) {
           setLocalUser({ name: storedName, image: storedImage || "" });
         } else {
@@ -50,7 +50,7 @@ const Navbar = () => {
     loadInitialData();
   }, [session]);
 
-  
+
   useEffect(() => {
     const handleStorageChange = () => {
       const storedName = localStorage.getItem("user_profile_name");
@@ -64,9 +64,9 @@ const Navbar = () => {
     return () => window.removeEventListener("storage", handleStorageChange);
   }, []);
 
-  
-  const user = session?.user 
-    ? { ...session.user, name: localUser.name || session.user.name, image: localUser.image || session.user.image } 
+
+  const user = session?.user
+    ? { ...session.user, name: localUser.name || session.user.name, image: localUser.image || session.user.image }
     : null;
 
   const linkClass = (path, isMobile = false) => {
@@ -101,19 +101,28 @@ const Navbar = () => {
     router.push('/');
   };
 
+  const scrollToTop = () => {
+    if (typeof window === "undefined") return;
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
   return (
     <nav className="bg-white border-b shadow-sm sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
 
-          <Link href="/" className="flex items-center gap-2 group">
+          <Link href="/" onClick={scrollToTop} className="flex items-center gap-2 group">
             <Image src="/assets/logo.png" alt="DocAppoint Logo" width={36} height={36} className="object-contain" />
             <span className="text-[#2563EB] font-bold text-xl tracking-tight">DocAppoint</span>
           </Link>
 
           {/* Desktop Menu */}
           <ul className="hidden md:flex items-center gap-8">
-            <li><Link className={linkClass("/")} href="/">Home</Link></li>
+            <li><Link className={linkClass("/")} href="/" onClick={scrollToTop}>Home</Link></li>
             <li><Link className={linkClass("/all-appointment")} href="/all-appointment">All Appointment</Link></li>
             <li><Link className={linkClass("/dashboard")} href="/dashboard">Dashboard</Link></li>
           </ul>
