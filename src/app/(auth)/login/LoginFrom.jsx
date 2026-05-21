@@ -5,7 +5,7 @@ import { ArrowRight, Eye, EyeOff, Link2, Lock, Mail, User } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import toast from 'react-hot-toast';
 
@@ -18,6 +18,8 @@ const LoginFrom = () => {
     const callbackUrl = searchParams.get("callbackUrl") ||
         searchParams.get("callbackUrl") ||
         "/";
+
+    const [showPassword, setShowPassword] = useState(false)
 
 
 
@@ -123,12 +125,10 @@ const LoginFrom = () => {
                                 <Lock className="h-4 w-4" />
                             </span>
                             <input
-                                // type={showPassword ? "text" : "password"}
+                                type={showPassword ? "text" : "password"}
                                 name="password"
                                 required
                                 placeholder="••••••••"
-                                // value={formData.password}
-                                // onChange={handleChange}
                                 className="w-full pl-10 pr-10 py-3 bg-white dark:bg-slate-950 border border-gray-200 dark:border-slate-800 rounded-xl text-sm text-gray-900 dark:text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-[#2563EB] focus:border-transparent transition-all"
                             />
                             {/* পাসওয়ার্ড শো/হাইড বাটন */}
@@ -137,20 +137,9 @@ const LoginFrom = () => {
                                 onClick={() => setShowPassword(!showPassword)}
                                 className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600 dark:hover:text-slate-300"
                             >
-                                {/* {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />} */}
+                                {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                             </button>
                         </div>
-
-
-                        <div className='flex justify-end'>
-                            <Link
-                                href="#"
-                                className="text-sm font-bold text-blue-400 hover:underline underline-offset-4 transition-all"
-                            >
-                                Forgot Password?
-                            </Link>
-                        </div>
-
                     </div>
 
                     {/* সাবমিট রেজিস্টার বাটন */}
