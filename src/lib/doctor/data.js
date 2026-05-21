@@ -5,19 +5,6 @@ export const getAllDoctors = async (searchTerm = '') => {
 }
 
 
-// export const getDoctorById = async (id, token) => {
-//     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/doctors/${id}`, {
-//         headers: {
-//             authorization: `Bearer ${token}`,
-//         },
-//     })
-//     const data = await res.json()
-//     return data;
-// }
-
-
-
-
 export const getDoctorById = async (id, token) => {
     try {
         const headers = {
@@ -44,5 +31,40 @@ export const getDoctorById = async (id, token) => {
     } catch (error) {
         console.error("Fetch doctor error:", error);
         return null;
+    }
+};
+
+
+
+
+
+
+
+
+export const updateUser = async (email, updatedData, token) => {
+    try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/updateUsers/update`, {
+            method: "PUT", 
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                email: email, // id-এর বদলে email
+                ...updatedData
+            }),
+        });
+
+        // এখানে একবারই বডি রিড করা হলো
+        const data = await res.json();
+
+        if (!res.ok) {
+            console.error("Server Error Response:", data);
+            throw new Error(data.message || "Failed to update");
+        }
+
+        return data; // ডেটা রিটার্ন করা হলো
+    } catch (error) {
+        console.error("Update error:", error);
+        throw error;
     }
 };

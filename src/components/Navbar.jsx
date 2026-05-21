@@ -1,19 +1,74 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Menu, X, User } from "lucide-react"; 
 import { usePathname, useRouter } from "next/navigation";
 import { signOut, useSession } from "@/lib/auth-client";
 import { Avatar } from "@heroui/react";
+import { IoIosLogOut } from "react-icons/io";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
   const { data: session, isPending } = useSession();
-  const user = session?.user;
+  
+  // 🎯 লোকাল লাইভ ইউজার স্টেট
+  const [localUser, setLocalUser] = useState({ name: "", image: "" });
+
+  // প্রথমবার ডাটাবেস এবং লোকাল স্টোরেজ থেকে ডেটা লোড করা
+  useEffect(() => {
+    const loadInitialData = async () => {
+      if (session?.user?.email) {
+        // প্রথমে লোকাল স্টোরেজে কিছু থাকলে সেটা দেখাও
+        const storedName = localStorage.getItem("user_profile_name");
+        const storedImage = localStorage.getItem("user_profile_image");
+        
+        if (storedName) {
+          setLocalUser({ name: storedName, image: storedImage || "" });
+        } else {
+          setLocalUser({ name: session.user.name, image: session.user.image || "" });
+        }
+
+        // তারপর ব্যাকএন্ড থেকে লেটেস্ট ডেটা এনে ব্যাকগ্রাউন্ডে সিঙ্ক করো
+        try {
+          const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/updateUsers/profile?email=${session.user.email}`);
+          if (res.ok) {
+            const data = await res.json();
+            if (data && data.name) {
+              setLocalUser({ name: data.name, image: data.image || "" });
+              localStorage.setItem("user_profile_name", data.name);
+              localStorage.setItem("user_profile_image", data.image || "");
+            }
+          }
+        } catch (err) {
+          console.error(err);
+        }
+      }
+    };
+    loadInitialData();
+  }, [session]);
+
+  // 🎯 জাদুকরী লিসেনার: প্রোফাইল কার্ডে ডেটা চেঞ্জ হলে এই ব্লকে ধরা পড়বে (কোনো লোড ছাড়াই)
+  useEffect(() => {
+    const handleStorageChange = () => {
+      const storedName = localStorage.getItem("user_profile_name");
+      const storedImage = localStorage.getItem("user_profile_image");
+      if (storedName) {
+        setLocalUser({ name: storedName, image: storedImage || "" });
+      }
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+    return () => window.removeEventListener("storage", handleStorageChange);
+  }, []);
+
+  // ডিসপ্লে ডেটা কম্বিনেশন
+  const user = session?.user 
+    ? { ...session.user, name: localUser.name || session.user.name, image: localUser.image || session.user.image } 
+    : null;
 
   const linkClass = (path, isMobile = false) => {
     const baseClass = isMobile
@@ -41,6 +96,8 @@ const Navbar = () => {
   };
 
   const handleSignOut = async () => {
+    localStorage.removeItem("user_profile_name");
+    localStorage.removeItem("user_profile_image");
     await signOut();
     router.push('/');
   };
@@ -59,7 +116,6 @@ const Navbar = () => {
           <ul className="hidden md:flex items-center gap-8">
             <li><Link className={linkClass("/")} href="/">Home</Link></li>
             <li><Link className={linkClass("/all-appointment")} href="/all-appointment">All Appointment</Link></li>
-
             <li><Link className={linkClass("/dashboard")} href="/dashboard">Dashboard</Link></li>
           </ul>
 
@@ -68,17 +124,13 @@ const Navbar = () => {
             {isPending ? (
               <div className="h-8 w-20 bg-gray-100 animate-pulse rounded-lg"></div>
             ) : user ? (
-
               <div className="flex items-center gap-4">
                 <div className="flex items-center gap-2 px-3 py-1.5 rounded-full ">
                   {user?.image ? (
-
-                    <Avatar>
-                      <Avatar.Image referrerPolicy="no-referrer"  alt={user?.name} src={user?.image} />
-                      <Avatar.Fallback>{user?.name.charAt(0)}</Avatar.Fallback>
+                    <Avatar key={user?.image}>
+                      <Avatar.Image referrerPolicy="no-referrer" alt={user?.name} src={user?.image} />
+                      <Avatar.Fallback>{user?.name?.charAt(0)}</Avatar.Fallback>
                     </Avatar>
-
-                    
                   ) : (
                     <div className="p-1 bg-gray-200 rounded-full text-gray-600">
                       <User className="h-4 w-4" />
@@ -90,13 +142,13 @@ const Navbar = () => {
                 </div>
                 <button
                   onClick={handleSignOut}
-                  className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg font-medium text-sm transition-all duration-200 cursor-pointer"
+                  className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg font-medium text-sm transition-all duration-200 cursor-pointer flex items-center gap-1"
                 >
-                  Logout
+                  <IoIosLogOut></IoIosLogOut>
+                  <span>Logout</span>
                 </button>
               </div>
             ) : (
-
               <>
                 <Link className={authClass("/login")} href="/login">Login</Link>
                 <Link className={authClass("/register")} href="/register">Register</Link>
@@ -130,13 +182,12 @@ const Navbar = () => {
             {isPending ? (
               <div className="h-10 bg-gray-100 animate-pulse rounded-lg"></div>
             ) : user ? (
-
               <div className="space-y-3">
                 <div className="flex items-center gap-3 px-2 py-1">
                   {user?.image ? (
-                    <Avatar>
-                      <Avatar.Image referrerPolicy="no-referrer"   alt={user?.name} src={user?.image} />
-                      <Avatar.Fallback>{user?.name.charAt(0)}</Avatar.Fallback>
+                    <Avatar key={user?.image}>
+                      <Avatar.Image referrerPolicy="no-referrer" alt={user?.name} src={user?.image} />
+                      <Avatar.Fallback>{user?.name?.charAt(0)}</Avatar.Fallback>
                     </Avatar>
                   ) : (
                     <div className="p-2 bg-gray-100 rounded-full text-gray-600">
@@ -150,9 +201,10 @@ const Navbar = () => {
                 </div>
                 <button
                   onClick={() => { handleSignOut(); setOpen(false); }}
-                  className="w-full bg-blue-500 hover:bg-blue-600 text-white px-4 py-2.5 rounded-lg font-medium text-sm transition-all cursor-pointer"
+                  className="w-full bg-blue-500 hover:bg-blue-600 text-white px-4 py-2.5 rounded-lg font-medium text-sm transition-all cursor-pointer flex items-center gap-1"
                 >
-                  Logout
+                  <IoIosLogOut></IoIosLogOut>
+                  <span>Logout</span>
                 </button>
               </div>
             ) : (

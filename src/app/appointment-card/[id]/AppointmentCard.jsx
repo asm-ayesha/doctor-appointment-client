@@ -172,7 +172,7 @@ const AppointmentCard = () => {
                                     <Phone className="h-4 w-4" />
                                 </span>
                                 <input
-                                    type="tel"
+                                    type="number"
                                     name="phone"
                                     required
                                     placeholder="01XXXXXXXXX"
