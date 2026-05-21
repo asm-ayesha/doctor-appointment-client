@@ -9,8 +9,10 @@ export async function proxy(request) {
 });
 
 if (!session || !session.user) {
-  return NextResponse.redirect(new URL('/login', request.url));
+  return NextResponse.redirect(
+    new URL(`/login?callbackUrl=${encodeURIComponent(request.nextUrl.pathname)}`, request.url));
 }
+  return NextResponse.next()
 }
  
 

@@ -15,14 +15,14 @@ const Navbar = () => {
   const router = useRouter();
   const { data: session, isPending } = useSession();
   
-  // 🎯 লোকাল লাইভ ইউজার স্টেট
+
   const [localUser, setLocalUser] = useState({ name: "", image: "" });
 
-  // প্রথমবার ডাটাবেস এবং লোকাল স্টোরেজ থেকে ডেটা লোড করা
+ 
   useEffect(() => {
     const loadInitialData = async () => {
       if (session?.user?.email) {
-        // প্রথমে লোকাল স্টোরেজে কিছু থাকলে সেটা দেখাও
+        
         const storedName = localStorage.getItem("user_profile_name");
         const storedImage = localStorage.getItem("user_profile_image");
         
@@ -32,7 +32,6 @@ const Navbar = () => {
           setLocalUser({ name: session.user.name, image: session.user.image || "" });
         }
 
-        // তারপর ব্যাকএন্ড থেকে লেটেস্ট ডেটা এনে ব্যাকগ্রাউন্ডে সিঙ্ক করো
         try {
           const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/updateUsers/profile?email=${session.user.email}`);
           if (res.ok) {
@@ -44,14 +43,14 @@ const Navbar = () => {
             }
           }
         } catch (err) {
-          console.error(err);
+          // console.error(err);
         }
       }
     };
     loadInitialData();
   }, [session]);
 
-  // 🎯 জাদুকরী লিসেনার: প্রোফাইল কার্ডে ডেটা চেঞ্জ হলে এই ব্লকে ধরা পড়বে (কোনো লোড ছাড়াই)
+  
   useEffect(() => {
     const handleStorageChange = () => {
       const storedName = localStorage.getItem("user_profile_name");
@@ -65,7 +64,7 @@ const Navbar = () => {
     return () => window.removeEventListener("storage", handleStorageChange);
   }, []);
 
-  // ডিসপ্লে ডেটা কম্বিনেশন
+  
   const user = session?.user 
     ? { ...session.user, name: localUser.name || session.user.name, image: localUser.image || session.user.image } 
     : null;

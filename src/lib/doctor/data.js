@@ -35,12 +35,6 @@ export const getDoctorById = async (id, token) => {
 };
 
 
-
-
-
-
-
-
 export const updateUser = async (email, updatedData, token) => {
     try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/updateUsers/update`, {
@@ -49,12 +43,12 @@ export const updateUser = async (email, updatedData, token) => {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                email: email, // id-এর বদলে email
+                email: email, 
                 ...updatedData
             }),
         });
 
-        // এখানে একবারই বডি রিড করা হলো
+        
         const data = await res.json();
 
         if (!res.ok) {
@@ -62,7 +56,7 @@ export const updateUser = async (email, updatedData, token) => {
             throw new Error(data.message || "Failed to update");
         }
 
-        return data; // ডেটা রিটার্ন করা হলো
+        return data; 
     } catch (error) {
         console.error("Update error:", error);
         throw error;

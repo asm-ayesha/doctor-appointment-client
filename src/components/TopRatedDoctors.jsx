@@ -5,14 +5,15 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Star, ArrowRight, Award, CheckCircle2, Loader2 } from "lucide-react";
 import { getAllDoctors } from "@/lib/doctor/data"; 
-import Link from "next/link";
+import { useSession } from "@/lib/auth-client";
 
 const TopRatedDoctors = () => {
     const router = useRouter();
     const [topDoctors, setTopDoctors] = useState([]);
     const [loading, setLoading] = useState(true);
-
-    const isLoggedIn = false;
+    const { data: session } = useSession();
+    const isLoggedIn = !!session?.user;
+    
     useEffect(() => {
         const fetchTopDoctors = async () => {
             try {
@@ -24,7 +25,7 @@ const TopRatedDoctors = () => {
 
                 setTopDoctors(sortedTopThree);
             } catch (error) {
-                console.error("Failed to load top doctors:", error);
+                // console.error("Failed to load top doctors:", error);
             } finally {
                 setLoading(false);
             }
@@ -35,9 +36,9 @@ const TopRatedDoctors = () => {
 
     const handleViewDetails = (doctorId) => {
         if (isLoggedIn) {
-            router.push(`/doctors/${doctorId}`);
+            router.push(`/all-appointment/${doctorId}`);
         } else {
-            router.push("/login");
+             router.push(`/login?callbackUrl=/all-appointment/${doctorId}`);
         }
     };
 
@@ -120,8 +121,10 @@ const TopRatedDoctors = () => {
                                     </p>
                                 </div>
 
-                                {/* অ্যাকশন বাটন */}
-                                <Link  href={`/all-appointment/${doctor._id}`} >
+                               
+
+                                
+                                
                                 <button
                                     onClick={() => handleViewDetails(doctor._id || doctor.id)}
                                    className="w-full inline-flex items-center justify-center gap-2 px-4 py-3.5 bg-[#2563EB] hover:bg-white text-white hover:text-[#2563EB] border border-[#2563EB] font-bold text-sm rounded-xl shadow-md shadow-blue-500/10 transition-all duration-300 active:scale-[0.98] cursor-pointer pointer-events-auto"
@@ -129,12 +132,12 @@ const TopRatedDoctors = () => {
                                     View Details
                                     <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                                 </button>
-                                </Link>
+                                
                             </div>
                         ))}
                     </div>
                 ) : (
-                    /* ডাটা না পাওয়া গেলে */
+                   
                     <div className="text-center py-12 text-gray-500 dark:text-slate-400">
                         No specialists found.
                     </div>

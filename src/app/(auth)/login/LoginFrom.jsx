@@ -1,57 +1,70 @@
 "use client"
-import {  authClient, signIn} from '@/lib/auth-client';
+import { authClient, signIn, useSession } from '@/lib/auth-client';
 import { title } from 'framer-motion/client';
 import { ArrowRight, Eye, EyeOff, Link2, Lock, Mail, User } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import React from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect } from 'react';
+
 import toast from 'react-hot-toast';
 
 
 
 const LoginFrom = () => {
     const router = useRouter();
+    const searchParams = useSearchParams();
+    const { data: session } = useSession();
+    const callbackUrl = searchParams.get("callbackUrl") ||
+        searchParams.get("callbackUrl") ||
+        "/";
+
+
+
+    useEffect(() => {
+        if (session?.user) {
+            router.push(callbackUrl);
+        }
+    }, [session, callbackUrl, router]);
+
 
     const handleLogin = async (e) => {
         e.preventDefault();
-
-        const formData = new FormData(e.currentTarget)
-
-
+        const formData = new FormData(e.currentTarget);
         const loginData = Object.fromEntries(formData.entries());
-        // console.log(registerData)
+
 
         const { data, error } = await signIn.email({
             email: loginData.email,
             password: loginData.password,
-            callbackURL: '/'
+            callbackUrl: callbackUrl,
         });
 
-        
+
 
         if (error) {
-            console.log(error)
+            // console.log(error)
             toast.error('Login failed');
             return;
         }
         toast.success("Login Success")
-        router.push('/')
+        router.push(callbackUrl)
     }
 
-     const handleGoogleSignin = async() =>{
-            await authClient.signIn.social({ 
-                provider: 'google'
-            })
-        }
+    const handleGoogleSignin = async () => {
+        await authClient.signIn.social({
+            provider: 'google',
+            callbackURL: callbackUrl,
+        })
+    }
 
     return (
         <main className="min-h-[85vh] bg-gray-50  flex items-center justify-center px-4 py-12 transition-colors duration-300">
 
-            
+
             <div className="max-w-md w-full bg-white border border-gray-100  rounded-3xl p-8 shadow-xl shadow-slate-200/50 dark:shadow-none">
 
-              
+
                 <div className="text-center flex flex-col items-center mb-8">
                     <div className="p-3 mb-4">
                         <Image
@@ -75,8 +88,8 @@ const LoginFrom = () => {
 
                     {/* নাম ইনপুট */}
                     <div className="space-y-1.5">
-                       
-                        
+
+
                     </div>
 
                     {/* ইমেইল ইনপুট */}
@@ -130,12 +143,12 @@ const LoginFrom = () => {
 
 
                         <div className='flex justify-end'>
-                             <Link
-                        href="#"
-                        className="text-sm font-bold text-blue-400 hover:underline underline-offset-4 transition-all"
-                    >
-                        Forgot Password?
-                    </Link>
+                            <Link
+                                href="#"
+                                className="text-sm font-bold text-blue-400 hover:underline underline-offset-4 transition-all"
+                            >
+                                Forgot Password?
+                            </Link>
                         </div>
 
                     </div>
@@ -158,13 +171,13 @@ const LoginFrom = () => {
                     </span>
                 </div>
 
-                
+
                 <button
                     onClick={handleGoogleSignin}
                     type="button"
                     className="w-full inline-flex items-center justify-center gap-2.5 px-4 py-3 bg-white dark:bg-slate-950 hover:bg-gray-50 dark:hover:bg-slate-800 text-gray-700 dark:text-slate-200 font-semibold text-sm rounded-xl border border-gray-200 dark:border-slate-800 shadow-sm transition-all duration-200 active:scale-[0.98] cursor-pointer"
                 >
-                   
+
                     <svg className="h-4 w-4 shrink-0" viewBox="0 0 24 24">
                         <path
                             fill="#EA4335"
@@ -174,7 +187,7 @@ const LoginFrom = () => {
                     Continue with Google
                 </button>
 
-               
+
                 <p className="text-center text-xs text-gray-500 dark:text-slate-400 mt-6 font-medium">
                     Don`t have an account?{" "}
                     <Link

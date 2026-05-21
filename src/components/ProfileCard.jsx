@@ -24,14 +24,13 @@ const ProfileCard = ({ user, onUpdateSuccess }) => {
         toast.success("Profile updated successfully!");
         setIsModalOpen(false);
         
-        // 🎯 পেজ লোড ছাড়া ন্যাভবারকে জানানোর জন্য লোকাল স্টোরেজে ডেটা রাখা হলো
         localStorage.setItem("user_profile_name", updatedData.name);
         localStorage.setItem("user_profile_image", updatedData.image);
         
-        // ন্যাভবারকে সাথে সাথে স্টেট আপডেট করতে বাধ্য করার ট্রিক
+       
         window.dispatchEvent(new Event("storage"));
 
-        // ড্যাশবোর্ডের স্টেট আপডেট করার জন্য
+       
         if (onUpdateSuccess) onUpdateSuccess();
 
       } else {
@@ -64,7 +63,7 @@ const ProfileCard = ({ user, onUpdateSuccess }) => {
 
       <button 
         onClick={() => setIsModalOpen(true)}
-        className="w-full flex items-center justify-center gap-2 bg-blue -600 hover:bg-blue-700 text-white py-2.5 rounded-xl font-medium transition-colors cursor-pointer"
+        className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-xl font-medium transition-colors cursor-pointer"
       >
         <Pencil className="w-4 h-4" /> Update Profile
       </button>

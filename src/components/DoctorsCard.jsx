@@ -1,18 +1,22 @@
 "use client";
 
 import Image from "next/image";
-import { MapPin, Briefcase, DollarSign, ArrowRight, Star} from "lucide-react";
+import { MapPin, Briefcase, DollarSign, ArrowRight, Star } from "lucide-react";
 import { Button } from "@heroui/react";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useSession } from "@/lib/auth-client"; 
 
 const DoctorsCard = ({ doctor }) => {
+    const router = useRouter();
+    const { data: session } = useSession();
+    const isLoggedIn = !!session?.user; 
+
     const {
         _id,
         name,
         specialty,
         image,
-        rating, 
-        
+        rating,
         experience,
         description,
         hospital,
@@ -20,17 +24,20 @@ const DoctorsCard = ({ doctor }) => {
         fee
     } = doctor;
 
-    const handleViewDetails = () => {
-        console.log(`Navigating to doctor`);
+   
+     const handleViewDetails = () => {
+        if (isLoggedIn) {
+            router.push(`/all-appointment/${_id}`);
+        } else {
+            router.push(`/login?callbackUrl=/all-appointment/${_id}`);
+        }
     };
 
     return (
         <div className="max-w-sm w-full mx-auto bg-white dark:bg-slate-900 border border-gray-100 dark:border-slate-800 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between group">
 
             <div>
-               
                 <div className="flex items-center gap-4 mb-5">
-                    
                     <div className="relative w-20 h-20 rounded-full overflow-hidden border-2 border-blue-50 dark:border-slate-700 shrink-0 shadow-inner">
                         <Image
                             src={image || "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=600&auto=format&fit=crop"}
@@ -55,9 +62,7 @@ const DoctorsCard = ({ doctor }) => {
                     </div>
                 </div>
 
-                
                 <div className="space-y-1 mb-5">
-                    
                     <div className="flex items-center gap-0.5">
                         {[...Array(5)].map((_, index) => {
                             const isFilled = index < Math.floor(Number(rating));
@@ -73,23 +78,18 @@ const DoctorsCard = ({ doctor }) => {
                             );
                         })}
                     </div>
-                   
                     <div className="flex items-center gap-1.5 text-sm font-medium">
                         <span className="font-bold text-gray-900 dark:text-white">
                             {Number(rating).toFixed(1)}
                         </span>
-                        
                     </div>
                 </div>
 
-                
                 <p className="text-gray-500 dark:text-slate-400 text-sm leading-relaxed mb-6 line-clamp-3">
-                  {description}
+                    {description}
                 </p>
 
                 <div className="space-y-3 border-t border-b border-gray-100 dark:border-slate-800/60 py-5 mb-6 text-sm text-gray-600 dark:text-slate-300">
-
-                    
                     <div className="flex items-center gap-3">
                         <Briefcase className="h-4 w-4 text-gray-400 dark:text-slate-500 shrink-0" />
                         <span className="font-medium">
@@ -97,7 +97,6 @@ const DoctorsCard = ({ doctor }) => {
                         </span>
                     </div>
 
-                  
                     <div className="flex items-center gap-3">
                         <MapPin className="h-4 w-4 text-gray-400 dark:text-slate-500 shrink-0" />
                         <span className="font-medium text-gray-700 dark:text-slate-300 line-clamp-1">
@@ -105,30 +104,23 @@ const DoctorsCard = ({ doctor }) => {
                         </span>
                     </div>
 
-                    
                     <div className="flex items-center gap-3">
                         <DollarSign className="h-4 w-4 text-emerald-500 shrink-0" />
                         <span className="font-medium">
                             Fee: <span className="font-bold text-emerald-600 dark:text-emerald-400">৳ {fee} BDT</span>
                         </span>
                     </div>
-
                 </div>
             </div>
 
-            
-           
-           <Link  href={`/all-appointment/${_id}`}>
-           <Button
+            {/* View Details বাটন */}
+            <Button
                 onClick={handleViewDetails}
-                className="w-full inline-flex items-center justify-center gap-2 px-4 py-3.5 bg-[#2563EB] hover:bg-white text-white hover:text-[#2563EB] border border-[#2563EB] font-bold text-sm rounded-xl shadow-md shadow-blue-500/10 transition-all duration-300 active:scale-[0.98] cursor-pointer pointer-events-auto "
+                className="w-full inline-flex items-center justify-center gap-2 px-4 py-3.5 bg-[#2563EB] hover:bg-white text-white hover:text-[#2563EB] border border-[#2563EB] font-bold text-sm rounded-xl shadow-md shadow-blue-500/10 transition-all duration-300 active:scale-[0.98] cursor-pointer pointer-events-auto"
             >
                 View Details
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </Button>
-           </Link>
-            
-            
 
         </div>
     );
