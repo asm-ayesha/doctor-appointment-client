@@ -1,16 +1,16 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import LoginFrom from './LoginFrom';
 
 export const metadata = {
-    title: "Login | DocAppoint", 
+    title: "Login | DocAppoint",
     description: "Log in to your DocAppoint account to book appointments with best doctors.",
 };
 
 const LoginPage = () => {
     return (
-        <div>
+        <Suspense fallback={<div>Loading...</div>}>
             <LoginFrom></LoginFrom>
-        </div>
+        </Suspense>
     );
 };
 
