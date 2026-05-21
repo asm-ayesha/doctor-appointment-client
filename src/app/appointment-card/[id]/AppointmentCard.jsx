@@ -3,7 +3,7 @@
 import { authClient, useSession } from "@/lib/auth-client";
 import { getDoctorById } from "@/lib/doctor/data";
 import { Calendar, CheckCircle2, Clock, FileText, Mail, Phone, Stethoscope, User } from "lucide-react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
@@ -14,6 +14,7 @@ const AppointmentCard = () => {
     const { data: session } = useSession();
     const user = session?.user;
     const { id } = useParams();
+    const router = useRouter();
     const [doctor, setDoctor] = useState({});
 
     useEffect(() => {
@@ -71,6 +72,9 @@ const AppointmentCard = () => {
             if (data && data.acknowledged) {
                 toast.success("Appointment Booked Successfully!");
                 e.target.reset();
+                setTimeout(() => {
+                    router.push("/dashboard")
+                }, 800)
             } else {
                 toast.error("Failed to book appointment. Please try again.");
             }

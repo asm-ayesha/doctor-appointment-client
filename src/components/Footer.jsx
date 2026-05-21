@@ -29,7 +29,7 @@ const Footer = () => {
                 className="object-contain"
               />
               <span className="text-[#2563EB] font-bold text-xl tracking-tight">
-                docAppoint
+                DocAppoint
               </span>
             </Link>
             <p className="text-gray-500 text-sm leading-relaxed max-w-sm">
