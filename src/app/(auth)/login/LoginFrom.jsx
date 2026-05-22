@@ -142,6 +142,15 @@ const LoginFrom = () => {
                         </div>
                     </div>
 
+                    <div className="flex justify-end">
+                        <Link
+                            href="/forgot-password"
+                            className="text-sm font-medium text-[#2563EB] hover:text-[#1d4ed8] transition-colors hover:underline"
+                        >
+                            Forgot Password?
+                        </Link>
+                    </div>
+
                     {/* সাবমিট রেজিস্টার বাটন */}
                     <button
                         type="submit"

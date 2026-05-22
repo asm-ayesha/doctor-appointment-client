@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from "react-icons/fa";
 import { Heart, Mail, MapPin, Phone } from "lucide-react";
+import { FaXTwitter } from "react-icons/fa6";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -40,8 +41,8 @@ const Footer = () => {
               <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className={socialIconClass} aria-label="Facebook">
                 <FaFacebook className="h-4 w-4" />
               </a>
-              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className={socialIconClass} aria-label="Twitter">
-                <FaTwitter className="h-4 w-4" />
+              <a href="https://x.com" target="_blank" rel="noopener noreferrer" className={socialIconClass} aria-label="Twitter">
+                <FaXTwitter className="h-4 w-4" />
               </a>
               <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className={socialIconClass} aria-label="Instagram">
                 <FaInstagram className="h-4 w-4" />
