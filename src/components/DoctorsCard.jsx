@@ -34,11 +34,11 @@ const DoctorsCard = ({ doctor }) => {
     };
 
     return (
-        <div className="max-w-sm w-full mx-auto bg-white dark:bg-slate-900 border border-gray-100 dark:border-slate-800 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between group">
+        <div className="max-w-sm w-full mx-auto bg-white dark:bg-slate-900 border border-blue-200 dark:border-slate-800 rounded-2xl p-6 shadow-md hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between group">
 
             <div>
                 <div className="flex items-center gap-4 mb-5">
-                    <div className="relative w-20 h-20 rounded-full overflow-hidden border-2 border-blue-50 dark:border-slate-700 shrink-0 shadow-inner">
+                    <div className="relative w-20 h-20 rounded-full overflow-hidden border-2 border-blue-200 dark:border-slate-700 shrink-0 shadow-inner">
                         <Image
                             src={image || "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=600&auto=format&fit=crop"}
                             alt={name}

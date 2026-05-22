@@ -57,11 +57,11 @@ export default function BlogHighlights() {
         </div>
 
         {/* Blog Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 ">
           {blogPosts.map((post) => (
             <article 
               key={post.id}
-              className="bg-white dark:bg-slate-900 border border-gray-100 dark:border-slate-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col group"
+              className="bg-white dark:bg-slate-900 border border-blue-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col group"
             >
               
               {/* Image Container with Hover Zoom */}

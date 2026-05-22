@@ -54,7 +54,7 @@ export default function Testimonials() {
           {testimonials.map((item) => (
             <div
               key={item.id}
-              className="relative bg-gray-50 dark:bg-slate-800/50 border border-gray-100 dark:border-slate-800 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between group"
+              className="relative bg-gray-50 dark:bg-slate-800/50 border border-blue-200 dark:border-slate-800 rounded-2xl p-6 shadow-md hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between group"
             >
               {/* Decorative Quote Icon */}
               <Quote className="absolute top-6 right-6 h-8 w-8 text-blue-500/10 dark:text-blue-400/5 stroke-[1.5]" />

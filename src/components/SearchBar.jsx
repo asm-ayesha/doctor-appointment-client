@@ -59,7 +59,7 @@ const SearchbBar = () => {
             </SearchField>
 
             <Button
-                className="bg-blue-500 hover:bg-blue-900 rounded-xl text-white"
+                className="bg-blue-500 hover:bg-blue-600 rounded-xl text-white"
                 onClick={handleSearch}
             >
                 Search

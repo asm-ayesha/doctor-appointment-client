@@ -72,7 +72,7 @@ const TopRatedDoctors = () => {
                         {topDoctors.map((doctor) => (
                             <div
                                 key={doctor._id || doctor.id}
-                                className="bg-white dark:bg-slate-900 border border-gray-100 dark:border-slate-800 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between group"
+                                className="bg-white dark:bg-slate-900 border border-blue-200 dark:border-slate-800 rounded-2xl p-6 shadow-md hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between group"
                             >
                                 <div>
                                    
